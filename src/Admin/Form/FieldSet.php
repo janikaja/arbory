@@ -23,6 +23,11 @@ class FieldSet extends Collection
     protected $model;
 
     /**
+     * @var array
+     */
+    protected $rules;
+
+    /**
      * Resource constructor.
      * @param Model $model
      * @param string $namespace
@@ -93,4 +98,22 @@ class FieldSet extends Collection
         parent::offsetSet( $key, $field );
     }
 
+    /**
+     * @param FieldInterface|mixed $field
+     * @param string $rules
+     * @return void
+     */
+    public function addRules( $field, $rules )
+    {
+        $this->rules[ $field->getName() ] = $rules;
+    }
+
+    /**
+     * @param FieldInterface|mixed $field
+     * @return mixed
+     */
+    public function getRules( $field )
+    {
+        return array_get( $this->rules, $field->getName() );
+    }
 }

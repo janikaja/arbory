@@ -3,6 +3,7 @@
 namespace CubeSystems\Leaf\Admin;
 
 use CubeSystems\Leaf\Admin\Form\Builder;
+use CubeSystems\Leaf\Admin\Form\Fields\AbstractField;
 use CubeSystems\Leaf\Admin\Form\FieldSet;
 use CubeSystems\Leaf\Admin\Form\Fields\FieldInterface;
 use CubeSystems\Leaf\Admin\Traits\EventDispatcher;
@@ -59,6 +60,8 @@ class Form implements Renderable
         $callback( $this );
 
         $this->registerEventListeners();
+
+        dd($this->getRules());
     }
 
     /**
@@ -124,6 +127,7 @@ class Form implements Renderable
 
     /**
      * @param Request $request
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store( Request $request )
     {
@@ -142,6 +146,7 @@ class Form implements Renderable
 
     /**
      * @param Request $request
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update( Request $request )
     {
@@ -194,6 +199,7 @@ class Form implements Renderable
      * @param Request $request
      * @param $requestType
      * @return Request|mixed
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function validate( Request $request, $requestType )
     {
@@ -203,6 +209,9 @@ class Form implements Renderable
         {
             return app()->make( $requestClass );
         }
+
+        $validator = \Validator::make( $request->input(), $this->getRules() );
+        $validator->validate();
 
         return $request;
     }
@@ -250,5 +259,21 @@ class Form implements Renderable
     public function render()
     {
         return $this->builder->render();
+    }
+
+    /**
+     * @return array
+     */
+    public function getRules()
+    {
+        $rules = [];
+
+        foreach( $this->fields as $field )
+        {
+            /** @var AbstractField $field */
+            $rules[ $field->getNameSpacedName() ] = $field->getRules();
+        }
+
+        return array_filter( $rules, 'strlen' );
     }
 }

@@ -148,6 +148,25 @@ abstract class AbstractField implements FieldInterface
     }
 
     /**
+     * @return string|null
+     */
+    public function getRules()
+    {
+        return $this->fieldSet->getRules( $this );
+    }
+
+    /**
+     * @param string|array $rules
+     * @return $this
+     */
+    public function setRules( $rules )
+    {
+        $this->fieldSet->addRules( $this, $rules );
+
+        return $this;
+    }
+
+    /**
      * @param Request $request
      */
     public function beforeModelSave( Request $request )

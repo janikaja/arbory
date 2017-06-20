@@ -133,6 +133,7 @@ trait Crudify
      * @param Request $request
      * @param $resourceId
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update( Request $request, $resourceId )
     {

@@ -63,6 +63,17 @@ interface FieldInterface
     public function setFieldSet( FieldSet $fieldSet );
 
     /**
+     * @param string|array $rules
+     * @return $this
+     */
+    public function setRules( $rules );
+
+    /**
+     * @return string|array|null
+     */
+    public function getRules();
+
+    /**
      * @return Model
      */
     public function getModel();
