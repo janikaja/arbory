@@ -2,7 +2,7 @@
 
 namespace Arbory\Base\Services\FileManager;
 
-use UniSharp\LaravelFilemanager\Handlers\ConfigHandler;
+use Unisharp\Laravelfilemanager\Handlers\ConfigHandler;
 
 class FileManagerConfigHandler extends ConfigHandler
 {
